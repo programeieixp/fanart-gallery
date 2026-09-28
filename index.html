@@ -3,137 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fanart Gallery - A Modern Showcase</title>
+    <meta name="description" content="A premium fanart gallery showcasing anime, game, and original character artwork.">
+    <title>Fanart Gallery</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation Header -->
-    <nav class="navbar">
-        <div class="navbar-content">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
             <div class="logo">
                 <span class="logo-icon">🎨</span>
-                <h1>Fanart Gallery</h1>
+                <h1 class="logo-text">fanart</h1>
             </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span>
-            </button>
+            <div class="header-actions">
+                <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Container -->
-    <main class="container">
+    <!-- Main Content -->
+    <main class="main">
         <!-- Hero Section -->
         <section class="hero">
+            <div class="hero-background">
+                <div class="gradient-orb orb-1"></div>
+                <div class="gradient-orb orb-2"></div>
+            </div>
             <div class="hero-content">
-                <h2>Discover Amazing Fanart</h2>
-                <p>A curated collection of beautiful fan-created artwork</p>
+                <h2 class="hero-title">Discover Amazing Fanart</h2>
+                <p class="hero-subtitle">A curated collection of creative fan artwork</p>
             </div>
         </section>
 
-        <!-- Controls Section -->
-        <section class="controls-section">
-            <div class="controls-wrapper">
-                <!-- Search Bar -->
-                <div class="search-container">
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        class="search-bar" 
-                        placeholder="Search by title or artist..."
-                        aria-label="Search gallery"
-                    >
-                </div>
-
-                <!-- Category Filters -->
-                <div class="filters">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="anime">Anime</button>
-                    <button class="filter-btn" data-filter="game">Game</button>
-                    <button class="filter-btn" data-filter="oc">OC</button>
-                </div>
-
-                <!-- Upload Button -->
-                <label class="upload-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M12 5v14m-7-7h14"></path>
-                    </svg>
-                    <span>Upload</span>
-                    <input 
-                        type="file" 
-                        id="fileInput" 
-                        accept="image/*" 
-                        multiple 
-                        aria-label="Upload images"
-                    >
-                </label>
+        <!-- Search & Filter Section -->
+        <section class="controls">
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Search artwork or artist..."
+                    aria-label="Search gallery"
+                >
+                <span class="search-icon">⌕</span>
             </div>
 
-            <!-- Results Counter -->
-            <div class="results-counter">
-                <span id="resultCount">0</span> artwork found
+            <div class="filter-group">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="anime">Anime</button>
+                <button class="filter-tab" data-filter="game">Game</button>
+                <button class="filter-tab" data-filter="oc">OC</button>
             </div>
+
+            <label class="upload-btn" for="fileInput">
+                <span class="upload-icon">+</span>
+                <span class="upload-text">Upload</span>
+                <input 
+                    type="file" 
+                    id="fileInput" 
+                    accept="image/*" 
+                    multiple
+                    aria-label="Upload images"
+                    style="display: none;"
+                >
+            </label>
         </section>
 
-        <!-- Gallery Grid -->
-        <section class="gallery-section">
-            <div class="gallery" id="gallery">
-                <!-- Gallery items will be inserted here by JavaScript -->
-            </div>
-        </section>
+        <!-- Results Info -->
+        <div class="results-info">
+            <span id="resultCount">0</span>
+            <span class="results-label">artworks</span>
+        </div>
+
+        <!-- Gallery -->
+        <section class="gallery" id="gallery" aria-live="polite"></section>
 
         <!-- Empty State -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-state-content">
-                <span class="empty-icon">🔍</span>
-                <h3>No artwork found</h3>
-                <p>Try adjusting your search or filter criteria</p>
+        <div class="empty-state hidden" id="emptyState">
+            <div class="empty-content">
+                <span class="empty-icon">✨</span>
+                <h3 class="empty-title">No artworks found</h3>
+                <p class="empty-text">Try adjusting your filters or search terms</p>
             </div>
         </div>
     </main>
 
-    <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-content">
-            <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M18 6L6 18M6 6l12 12"></path>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+        
+        <div class="lightbox-container">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
 
-            <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M15 19l-7-7 7-7"></path>
+            <button class="lightbox-nav nav-prev" id="navPrev" aria-label="Previous">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </button>
 
-            <div class="lightbox-image-container">
-                <img id="lightboxImage" src="" alt="Fullscreen view" class="lightbox-image">
-                <div class="lightbox-loading" id="lightboxLoading">
+            <div class="lightbox-media">
+                <img id="lightboxImg" src="" alt="" class="lightbox-image">
+                <div class="image-loading" id="imageLoading">
                     <div class="spinner"></div>
                 </div>
             </div>
 
-            <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 19l7-7-7-7"></path>
+            <button class="lightbox-nav nav-next" id="navNext" aria-label="Next">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
 
             <div class="lightbox-info">
-                <h3 id="lightboxTitle">Artwork Title</h3>
-                <p id="lightboxArtist">by Artist Name</p>
+                <h3 id="lightboxTitle" class="lightbox-title">Title</h3>
+                <p id="lightboxArtist" class="lightbox-artist">Artist</p>
                 <span id="lightboxCategory" class="lightbox-category">Category</span>
             </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <span id="toastMessage"></span>
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <span id="toastText"></span>
     </div>
 
     <script src="script.js"></script>
