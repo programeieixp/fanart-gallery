@@ -20,7 +20,7 @@ const lightboxCategory = $("#lightboxCategory");
 const imageLoading = $("#imageLoading");
 
 const themeBtn = $("#themeBtn");
-const themeIcon = $("#themeBtn .theme-icon");
+const themeIcon = $(".theme-icon");
 const toast = $("#toast");
 const toastText = $("#toastText");
 
@@ -130,6 +130,8 @@ let currentVisible = [];
 let currentLightboxIndex = 0;
 
 function showToast(message, duration = 1800) {
+  if (!toast || !toastText) return;
+  
   toastText.textContent = message;
   toast.classList.add("show");
 
@@ -155,6 +157,8 @@ function getVisibleArtworks() {
 }
 
 function renderGallery() {
+  if (!gallery || !resultCount || !emptyState) return;
+  
   const filtered = getVisibleArtworks();
   currentVisible = filtered;
   resultCount.textContent = filtered.length;
@@ -206,29 +210,29 @@ function renderGallery() {
 }
 
 function openLightbox(index) {
-  if (!currentVisible[index]) return;
+  if (!currentVisible[index] || !lightbox || !lightboxImg) return;
 
   currentLightboxIndex = index;
   const art = currentVisible[index];
 
   lightboxImg.classList.remove("loaded");
-  imageLoading.classList.remove("hidden");
+  if (imageLoading) imageLoading.classList.remove("hidden");
 
   lightboxImg.src = art.src;
   lightboxImg.alt = art.alt;
 
   lightboxImg.onload = () => {
-    imageLoading.classList.add("hidden");
+    if (imageLoading) imageLoading.classList.add("hidden");
     lightboxImg.classList.add("loaded");
   };
 
   lightboxImg.onerror = () => {
-    imageLoading.classList.add("hidden");
+    if (imageLoading) imageLoading.classList.add("hidden");
   };
 
-  lightboxTitle.textContent = art.title;
-  lightboxArtist.textContent = `by ${art.artist}`;
-  lightboxCategory.textContent = art.category;
+  if (lightboxTitle) lightboxTitle.textContent = art.title;
+  if (lightboxArtist) lightboxArtist.textContent = `by ${art.artist}`;
+  if (lightboxCategory) lightboxCategory.textContent = art.category;
 
   lightbox.classList.add("open");
   lightbox.setAttribute("aria-hidden", "false");
@@ -236,11 +240,13 @@ function openLightbox(index) {
 }
 
 function closeLightbox() {
+  if (!lightbox) return;
+  
   lightbox.classList.remove("open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
-  imageLoading.classList.remove("hidden");
-  lightboxImg.classList.remove("loaded");
+  if (imageLoading) imageLoading.classList.remove("hidden");
+  if (lightboxImg) lightboxImg.classList.remove("loaded");
 }
 
 function changeLightbox(direction) {
@@ -252,51 +258,57 @@ function changeLightbox(direction) {
   openLightbox(nextIndex);
 }
 
-searchInput.addEventListener("input", (event) => {
-  searchQuery = event.target.value;
-  renderGallery();
-});
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-    filterButtons.forEach((btn) => btn.classList.toggle("active", btn === button));
+if (searchInput) {
+  searchInput.addEventListener("input", (event) => {
+    searchQuery = event.target.value;
     renderGallery();
   });
-});
+}
 
-fileInput.addEventListener("change", (event) => {
-  const files = Array.from(event.target.files || []);
-  if (!files.length) return;
-
-  files.forEach((file) => {
-    if (!file.type.startsWith("image/")) return;
-
-    const objectUrl = URL.createObjectURL(file);
-    const cleanName = file.name.replace(/\.[^/.]+$/, "") || "Uploaded Artwork";
-
-    allArtworks.unshift({
-      id: Date.now() + Math.random(),
-      title: cleanName,
-      artist: "You",
-      category: activeFilter === "all" ? "oc" : activeFilter,
-      src: objectUrl,
-      alt: `Uploaded artwork: ${cleanName}`
+if (filterButtons.length) {
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeFilter = button.dataset.filter;
+      filterButtons.forEach((btn) => btn.classList.toggle("active", btn === button));
+      renderGallery();
     });
   });
+}
 
-  renderGallery();
-  showToast(`${files.length} image${files.length > 1 ? "s" : ""} added`);
-  fileInput.value = "";
-});
+if (fileInput) {
+  fileInput.addEventListener("change", (event) => {
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
 
-lightboxClose.addEventListener("click", closeLightbox);
-lightboxBackdrop.addEventListener("click", closeLightbox);
-navPrev.addEventListener("click", () => changeLightbox(-1));
-navNext.addEventListener("click", () => changeLightbox(1));
+    files.forEach((file) => {
+      if (!file.type.startsWith("image/")) return;
+
+      const objectUrl = URL.createObjectURL(file);
+      const cleanName = file.name.replace(/\.[^/.]+$/, "") || "Uploaded Artwork";
+
+      allArtworks.unshift({
+        id: Date.now() + Math.random(),
+        title: cleanName,
+        artist: "You",
+        category: activeFilter === "all" ? "oc" : activeFilter,
+        src: objectUrl,
+        alt: `Uploaded artwork: ${cleanName}`
+      });
+    });
+
+    renderGallery();
+    showToast(`${files.length} image${files.length > 1 ? "s" : ""} added`);
+    fileInput.value = "";
+  });
+}
+
+if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+if (lightboxBackdrop) lightboxBackdrop.addEventListener("click", closeLightbox);
+if (navPrev) navPrev.addEventListener("click", () => changeLightbox(-1));
+if (navNext) navNext.addEventListener("click", () => changeLightbox(1));
 
 document.addEventListener("keydown", (event) => {
-  if (!lightbox.classList.contains("open")) return;
+  if (!lightbox || !lightbox.classList.contains("open")) return;
 
   if (event.key === "Escape") {
     closeLightbox();
@@ -313,39 +325,47 @@ document.addEventListener("keydown", (event) => {
 
 let touchStartX = 0;
 
-lightbox.addEventListener(
-  "touchstart",
-  (event) => {
-    touchStartX = event.changedTouches[0].clientX;
-  },
-  { passive: true }
-);
+if (lightbox) {
+  lightbox.addEventListener(
+    "touchstart",
+    (event) => {
+      if (event.changedTouches && event.changedTouches.length) {
+        touchStartX = event.changedTouches[0].clientX;
+      }
+    },
+    { passive: true }
+  );
 
-lightbox.addEventListener("touchend", (event) => {
-  if (!lightbox.classList.contains("open")) return;
+  lightbox.addEventListener("touchend", (event) => {
+    if (!lightbox.classList.contains("open")) return;
 
-  const touchEndX = event.changedTouches[0].clientX;
-  const distance = touchEndX - touchStartX;
+    if (!event.changedTouches || !event.changedTouches.length) return;
+    
+    const touchEndX = event.changedTouches[0].clientX;
+    const distance = touchEndX - touchStartX;
 
-  if (distance > 50) {
-    changeLightbox(-1);
-  }
+    if (distance > 50) {
+      changeLightbox(-1);
+    }
 
-  if (distance < -50) {
-    changeLightbox(1);
-  }
-});
+    if (distance < -50) {
+      changeLightbox(1);
+    }
+  });
+}
 
-themeBtn.addEventListener("click", () => {
-  const isLight = document.body.classList.toggle("light-mode");
-  themeIcon.textContent = isLight ? "☀️" : "🌙";
-  localStorage.setItem("theme", isLight ? "light" : "dark");
-});
+if (themeBtn && themeIcon) {
+  themeBtn.addEventListener("click", () => {
+    const isLight = document.body.classList.toggle("light-mode");
+    themeIcon.textContent = isLight ? "☀️" : "🌙";
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+  });
+}
 
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "light" || (!savedTheme && window.matchMedia("(prefers-color-scheme: light)").matches)) {
   document.body.classList.add("light-mode");
-  themeIcon.textContent = "☀️";
+  if (themeIcon) themeIcon.textContent = "☀️";
 }
 
 renderGallery();
