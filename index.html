@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fanart Gallery - A Modern Showcase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <span class="logo-icon">🎨</span>
+                <h1>Fanart Gallery</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Discover Amazing Fanart</h2>
+                <p>A curated collection of beautiful fan-created artwork</p>
+            </div>
+        </section>
+
+        <!-- Controls Section -->
+        <section class="controls-section">
+            <div class="controls-wrapper">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-bar" 
+                        placeholder="Search by title or artist..."
+                        aria-label="Search gallery"
+                    >
+                </div>
+
+                <!-- Category Filters -->
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="anime">Anime</button>
+                    <button class="filter-btn" data-filter="game">Game</button>
+                    <button class="filter-btn" data-filter="oc">OC</button>
+                </div>
+
+                <!-- Upload Button -->
+                <label class="upload-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 5v14m-7-7h14"></path>
+                    </svg>
+                    <span>Upload</span>
+                    <input 
+                        type="file" 
+                        id="fileInput" 
+                        accept="image/*" 
+                        multiple 
+                        aria-label="Upload images"
+                    >
+                </label>
+            </div>
+
+            <!-- Results Counter -->
+            <div class="results-counter">
+                <span id="resultCount">0</span> artwork found
+            </div>
+        </section>
+
+        <!-- Gallery Grid -->
+        <section class="gallery-section">
+            <div class="gallery" id="gallery">
+                <!-- Gallery items will be inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-content">
+                <span class="empty-icon">🔍</span>
+                <h3>No artwork found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+
+            <div class="lightbox-image-container">
+                <img id="lightboxImage" src="" alt="Fullscreen view" class="lightbox-image">
+                <div class="lightbox-loading" id="lightboxLoading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 19l7-7-7-7"></path>
+                </svg>
+            </button>
+
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle">Artwork Title</h3>
+                <p id="lightboxArtist">by Artist Name</p>
+                <span id="lightboxCategory" class="lightbox-category">Category</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
