@@ -23,7 +23,16 @@ const themeIcon = $("#themeBtn .theme-icon");
 const toast = $("#toast");
 const toastText = $("#toastText");
 
-const artworkData = [];
+const artworkData = [
+  {
+    id: 1,
+    src: "images/IMG_7831.png",
+    alt: "Fanart",
+    title: "IMG_7831",
+    artist: "Tiw",
+    category: "oc"
+  }
+];
 
 let allArtworks = [...artworkData];
 let activeFilter = "all";
