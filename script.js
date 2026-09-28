@@ -27,24 +27,32 @@ const artworkData = [
   {
     id: 1,
     src: "images/IMG_7831.png",
-    alt: "Fanart",
-    title: "fanart1",
+    alt: "Fanart 1",
+    title: "Fanart 1",
     artist: "Tiw",
     category: "oc"
   },
   {
     id: 2,
     src: "images/781_20260928202203.png",
-    alt: "Fanart",
-    title: "fanart2",
+    alt: "Fanart 2",
+    title: "Fanart 2",
     artist: "Tiw",
     category: "oc"
   },
   {
     id: 3,
     src: "images/771_20260923165732.png",
-    alt: "Fanart",
-    title: "fanart3",
+    alt: "Fanart 3",
+    title: "Fanart 3",
+    artist: "Tiw",
+    category: "oc"
+  },
+  {
+    id: 4,
+    src: "images/IMG_20260918_173716.jpg",
+    alt: "Fanart 4",
+    title: "Fanart 4",
     artist: "Tiw",
     category: "oc"
   }
