@@ -39,6 +39,14 @@ const artworkData = [
     title: "fanart2",
     artist: "Tiw",
     category: "oc"
+  },
+  {
+    id: 3,
+    src: "images/771_20260923165732.png",
+    alt: "Fanart",
+    title: "fanart3",
+    artist: "Tiw",
+    category: "oc"
   }
 ];
 
